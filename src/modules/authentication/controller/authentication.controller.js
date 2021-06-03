@@ -1,32 +1,28 @@
-const { session, db } = require("../../helpers/database_connection");
-
-const Register = async (req, res, next) => {
-  // const { name } = req.body;
-  // session.run(`
-  //   (:User {email: ${email}})
-  // `);
-  // res.json({ message: "Registred" });
+const bcrypt = require("bcrypt");
+const { mongoose } = require("../../helpers/database_connection");
+const Models = {
+  Users: require("../model/users.model"),
 };
 
-const UserCreateConstrain = async (req, res, next) => {
-  try {
-    const { constrain, label } = req.body;
-    db(
-      `CREATE CONSTRAINT constrain_${constrain} ON (l:${label}) ASSERT l.${constrain} IS UNIQUE`
-    );
-    db(`SHOW CONSTRAINT`);
-    res.json({ message: "Done" });
-  } catch (error) {
-    res.json({ message: error });
+const Register = async (agrs) => {
+  const { email } = agrs;
+  if (email == null) {
+    res.json({ message: "Emphty Email" });
+    return;
   }
+  new Models.Users({ email });
+  res.json({ message: `Email: ${email} resgistred with success` });
 };
 
-const UserDropConstain = async (req, res, next) => {
-  const { constrain } = req.body;
-  db(`
-    DROP CONSTRAINT constrain_${constrain}
-  `);
-  res.json({ message: "Done" });
+const AdmLogin = async (args) => {
+  const { email, password } = args;
+  const user = await Models.Users.findOne({ email });
+  console.log(user);
+  if (user) {
+    const match = await bcrypt.compare(password, user.admPassword);
+    if (match) return "Logged with Sucess";
+  }
+  return "Invalid email or password";
 };
 
-module.exports = { Register, UserCreateConstrain, UserDropConstain };
+module.exports = { Register, AdmLogin };

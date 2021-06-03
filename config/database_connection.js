@@ -1,11 +1,13 @@
-const neo4j = require("neo4j-driver");
+const mongoose = require("mongoose");
+const chalk = require("chalk");
 
-const driver = neo4j.driver(
-  process.env.DB_URL,
-  neo4j.auth.basic("admin", "cm7advvp2dzf"),
-  {
-    maxTransactionRetryTime: 30000,
-  }
-);
+mongoose.connect(process.env.DB_URL, {
+  // Give the Mongo URL in .env
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, chalk.red("Connection Error:")));
+db.once("open", () => console.log(`Connected with ${chalk.green("MongoDB")}`));
 
-module.exports = driver;
+module.exports = mongoose;

@@ -9,5 +9,5 @@ module.exports = (app, logger, express) => {
   app.use(cookieParser());
   app.use(express.static(path.join(__dirname, "public")));
 
-  console.log("middleware", chalk.green("is loaded"));
+  console.log("Middleware", chalk.green("is loaded"));
 };
