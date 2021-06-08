@@ -3,6 +3,7 @@ const path = require("path");
 const chalk = require("chalk");
 
 module.exports = (app, logger, express) => {
+  require("./passport")();
   app.use(logger("dev"));
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));

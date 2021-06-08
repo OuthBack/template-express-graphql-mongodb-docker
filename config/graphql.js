@@ -7,11 +7,18 @@ const path = require("path");
 const RootQueryType = new GraphQLObjectType({
   name: "Query",
   description: "Root Query",
-  fields: () => require("./load_modules"),
+  fields: () => require("./load_query_modules"),
+});
+
+const RootMutationType = new GraphQLObjectType({
+  name: "Mutation",
+  description: "Root Mutation",
+  fields: () => require("./load_mutation_modules"),
 });
 
 const schema = new GraphQLSchema({
   query: RootQueryType,
+  mutation: RootMutationType,
 });
 
 module.exports = (app) => {

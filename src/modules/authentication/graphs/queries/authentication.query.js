@@ -1,8 +1,8 @@
 const { GraphQLObjectType, GraphQLString, GraphQLNonNull } = require("graphql");
 
 const AuthenticationType = new GraphQLObjectType({
-  name: "Authentication",
-  description: "Handle the authentication",
+  name: "QueryAuthentication",
+  description: "Get the authentication",
   fields: () => ({
     admLogin: {
       type: GraphQLString,
@@ -13,13 +13,18 @@ const AuthenticationType = new GraphQLObjectType({
       description: "Login as Administrator",
       resolve: (controller, args) => controller.AdmLogin(args),
     },
+    // registerSteamUser: {
+    //   type: GraphQLString,
+    //   description: "Register Steam User",
+    //   resolve: (controller) => controller.registerSteamUser(),
+    // },
   }),
 });
 
 const Authentication = {
   type: AuthenticationType,
   description: "Handle the authentication",
-  resolve: () => require("../controller/authentication.controller"),
+  resolve: () => require("../../controller/queries/authentication.controller"),
 };
 
 module.exports = Authentication;

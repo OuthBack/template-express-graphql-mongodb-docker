@@ -2,8 +2,12 @@ const glob = require("glob");
 const path = require("path");
 const chalk = require("chalk");
 
-console.log("Graphs are", chalk.yellow("loading ..."));
-let modulePath = "src/modules/**/graphs/*.graph.js";
+console.log(
+  chalk.yellow("Mutation"),
+  " graphs are",
+  chalk.yellow("loading ...")
+);
+let modulePath = "src/modules/**/graphs/mutations/*.mutation.js";
 const modules = {};
 glob.sync(modulePath).forEach((file) => {
   const filePath = file.split("/");
@@ -13,6 +17,6 @@ glob.sync(modulePath).forEach((file) => {
   console.log(`${chalk.yellow(graph)} is ${chalk.green("ready")} \n`);
 });
 
-console.log("Graphs are", chalk.green("loaded"));
+console.log(chalk.yellow("Mutation"), " graphs are", chalk.green("loaded"));
 
 module.exports = modules;
